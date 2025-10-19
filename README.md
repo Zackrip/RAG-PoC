@@ -10,7 +10,7 @@ This project replicates the smooth animations, minimal UI, and interactive desig
 
 🎨 Tailwind CSS – Styling and layout
 
-🧠 Framer Motion / GSAP (if used) – Smooth animations and transitions
+🧠 Locomotive Scroll / Framer Motion / GSAP – Smooth Scroll, Smooth animations and transitions
 
 🧩 Vite / CRA – Development setup
 
