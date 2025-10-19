@@ -39,7 +39,7 @@ ochi-clone/
 
 Clone the repository
 
-git clone - https://github.com/Zackrip/ochi-clone)
+git clone - https://github.com/Zackrip/ochi-clone
 
 Navigate into the project
 
