@@ -11,40 +11,45 @@ function About() {
         
         <div className=' border-t-2 mt-5 border-[#B3CC5E]'>
 
-            <div className='w-full text-zinc-950 text-md font-NeueMontreal flex gap-110 '>
-                <div className='pl-14 pt-4 '>
+            <div className='w-full text-zinc-950 text-lg tracking-tight font-NeueMontreal flex pt-4  '>
+                <div className='w-1/2 px-14  '>
                     <p>What you can expect:</p>
                 </div>
             
-                <div className=''>
-                    <p className='pt-4 '>
+                <div className='w-1/2 flex'>
+                    <div>
+                     <p className='w-1/2 whitespace-nowrap'>
                          We don't just make slides. We shape <br />
                          strategy, storytelling, design scalable<br /> 
                          brand systems, and build presentations <br />
                          that make people say: "I want in!"
                      </p>
 
-                    <p className='pt-4 mt-10'>
+                    <p className=' mt-10'>
                         Our clients make the world go round - <br />
                         from deep tech, aerospace and robotics <br />
                         to music festivals and Michelin-starred <br />
                         restaurants.
                     </p>
 
-                    <p className='pt-4 mt-10'>
+                    <p className=' mt-10'>
                         Since 2019, we've been the go-to partner <br /> 
                         for Yahoo, Medallia, Uber, Lexus, <br /> 
                         Salience Labs, Trawa and AllThingsGo. <br />
-                    </p>
+                    </p>   
+                    </div>
+                    
+
+                    <div className=' w-1/2 py-55 px-50 text-lg font-NeueMontreal tracking-tighter flex justify-between flex-col h-32'>
+                    <p>S:</p>
+                    <a className='mt-5' href="https://www.behance.net/ochi_design">Behance</a>
+                    <a href="https://www.instagram.com/ochi_design/">Instagram</a>
+                    <a href="https://www.linkedin.com/company/56403597">Linkdin</a>
+                     </div>
+
                 </div>
 
-                <div className='pt-55 '>
-                    <p>S:</p>
-                    <p className='mt-5'>Instagram</p>
-                    <p>Behance</p>
-                    <p>Facebook</p>
-                    <p>Linkedin</p>
-                </div>
+               
             </div>   
             
         </div>
