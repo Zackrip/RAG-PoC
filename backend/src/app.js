@@ -5,8 +5,11 @@ import createVectorStore from "./services/vector.service.js";
 import searchDocuments from "./services/retrieval.service.js";
 import qdrantClient from "./configs/qdrant.js";
 import generateAnswer from "./services/rag.service.js";
+import authRoutes from "./routes/auth.routes.js";
 
 const app = express();
+app.use(express.json());
+app.use("/auth", authRoutes);
 
 const documents = await loadDocument("./documents/sample.txt");
 
