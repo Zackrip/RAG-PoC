@@ -31,12 +31,13 @@ function Navbar() {
       <div className="links flex gap-10 hover:cursor-pointer ">
         {["Features", "How It Works", "Documents", "About", "Contact us"].map(
           (item, index) => (
-            <Link to={index === 4 ? "/contact" : `/${item.toLowerCase().replace(" ", "-")}`}>
+            <a
               className={`'text-lg text-[#FF6B35] capitalize font-NeueMontreal hover:scale-120 duration-200' ${
                 index === 4
               }`}
+            >
               {item}
-            </Link>
+            </a>
           ),
         )}
       </div>
