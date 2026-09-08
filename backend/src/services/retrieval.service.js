@@ -1,28 +1,34 @@
 import gemini from "../configs/gemini.js";
-import { QdrantVectorStore } from "@langchain/qdrant";
+import qdrantClient from "../configs/qdrant.js";
 
 const COLLECTION_NAME = "documents";
 
-const getVectorStore = async () => {
-  const vectorStore = await QdrantVectorStore.fromExistingCollection(
-    gemini.embeddings,
-    {
-      url: process.env.QDRANT_URL,
-      apiKey: process.env.QDRANT_API_KEY,
-      collectionName: COLLECTION_NAME,
-    },
-  );
-  return vectorStore;
+const createQueryEmbedding = async (text) => {
+  const vector = await gemini.embeddings.embedQuery(text);
+
+  if (!vector?.length) {
+    throw new Error("Gemini returned an empty query embedding");
+  }
+
+  return vector;
 };
 
 const searchVectorStore = async (query, k = 5) => {
-  const vectorStore = await getVectorStore();
-  const results = await vectorStore.similaritySearch(query, k);
+  const queryVector = await createQueryEmbedding(query);
 
-  return results;
-};  
+  const result = await qdrantClient.query(COLLECTION_NAME, {
+    query: queryVector,
+    limit: k,
+    with_payload: true,
+  });
+
+  return result.points.map((point) => ({
+    pageContent: point.payload?.pageContent ?? "",
+    metadata: point.payload?.metadata ?? {},
+    score: point.score,
+  }));
+};
 
 export default {
-  getVectorStore,
   searchVectorStore,
 };
