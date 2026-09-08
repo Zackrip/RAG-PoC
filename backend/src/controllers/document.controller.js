@@ -27,7 +27,6 @@ const uploadDocument = async (req, res) => {
   }
 };
 
-
 export default {
   uploadDocument,
 };

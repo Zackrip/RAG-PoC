@@ -1,5 +1,4 @@
-import { QdrantVectorStore } from "@langchain/qdrant";
-import { QdrantClient } from "@qdrant/js-client-rest";
+
 import gemini from "../configs/gemini.js";
 import qdrantClient from "../configs/qdrant.js";
 import dotenv from "dotenv";

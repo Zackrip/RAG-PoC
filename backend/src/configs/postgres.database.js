@@ -1,10 +1,7 @@
 import { Sequelize } from "sequelize";
-// import pg from "pg";
 import dotenv from "dotenv";
 
 dotenv.config({quiet: true});
-
-// const { Pool } = pg;
 
 const sequelize = new Sequelize(
   process.env.DB_DATABASE,
