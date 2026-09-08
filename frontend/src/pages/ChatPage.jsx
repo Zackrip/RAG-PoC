@@ -1,0 +1,127 @@
+import React, { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+
+const API = "http://localhost:3000/api";
+
+function ChatPage() {
+  const [file, setFile] = useState(null);
+  const [uploadMsg, setUploadMsg] = useState("");
+  const [uploading, setUploading] = useState(false);
+
+  const [question, setQuestion] = useState("");
+  const [messages, setMessages] = useState([]);
+  const [asking, setAsking] = useState(false);
+
+  const chatEnd = useRef(null);
+
+  useEffect(() => {
+    chatEnd.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  const handleUpload = async () => {
+    if (!file) return;
+    setUploading(true);
+    setUploadMsg("");
+    const formData = new FormData();
+    formData.append("document", file);
+    try {
+      const res = await axios.post(`${API}/documents/upload`, formData);
+      setUploadMsg(`${res.data.data.fileName} uploaded (${res.data.data.chunkCount} chunks)`);
+      setFile(null);
+    } catch (err) {
+      setUploadMsg( (err.response?.data?.message || "Upload failed"));
+    }
+    setUploading(false);
+  };
+
+  const handleAsk = async (e) => {
+    e.preventDefault();
+    if (!question.trim() || asking) return;
+    const q = question.trim();
+    setQuestion("");
+    setMessages((m) => [...m, { from: "you", text: q }]);
+    setAsking(true);
+    try {
+      const res = await axios.post(`${API}/chat`, { question: q });
+      setMessages((m) => [...m, { from: "ai", text: res.data.answer }]);
+    } catch (err) {
+      setMessages((m) => [...m, { from: "ai", text: "Error: " + (err.response?.data?.message || "Something went wrong") }]);
+    }
+    setAsking(false);
+  };
+
+  return (
+    <div className="min-h-screen bg-[#f5f5f5] p-6 font-sans">
+      <Link to="/" className="text-[#FF6B35] mb-4 inline-block">
+      <h1 className="text-2xl text-[#FF6B35] font-bold mb-6"> Docly</h1></Link>
+
+      {/* Upload */}
+      <div className="bg-white rounded-lg p-5 mb-6 shadow-sm">
+        <h2 className="font-semibold text-[#FF6B35] mb-3">Upload Document</h2>
+        <div className="flex gap-3 items-center">
+          <input
+            type="file"
+            accept=".pdf,.txt"
+            onChange={(e) => setFile(e.target.files[0])}
+            className="text-sm"
+          />
+          <button
+            onClick={handleUpload}
+            disabled={!file || uploading}
+            className="bg-[#FF6B35] text-white text-sm px-4 py-2 rounded disabled:opacity-40"
+          >
+            {uploading ? "Uploading..." : "Upload"}
+          </button>
+        </div>
+        {uploadMsg && <p className="text-sm mt-2">{uploadMsg}</p>}
+      </div>
+
+      {/* Chat */}
+      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+        <div className="p-4 border-b border-[#e5e5e5]">
+          <h2 className="font-semibold text-[#FF6B35]">Ask a Question</h2>
+        </div>
+
+        <div className="h-80 overflow-y-auto p-4 space-y-3">
+          {messages.length === 0 && (
+            <p className="text-gray-400 text-sm text-center mt-16">Upload a document, then ask something.</p>
+          )}
+          {messages.map((m, i) => (
+            <div key={i} className={`flex ${m.from === "you" ? "justify-end" : "justify-start"}`}>
+              <div className={`max-w-[75%] text-sm rounded-lg px-3 py-2 whitespace-pre-wrap ${
+                m.from === "you" ? "bg-[#FF6B35] text-white" : "bg-gray-100 text-gray-800"
+              }`}>
+                {m.text}
+              </div>
+            </div>
+          ))}
+          {asking && (
+            <div className="text-sm text-[#FF6B35]">Thinking...</div>
+          )}
+          <div ref={chatEnd} />
+        </div>
+
+        <form onSubmit={handleAsk} className="flex border-t  border-[#e5e5e5]">
+          <input
+            type="text"
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+            placeholder="Type your question..."
+            className="flex-1 px-4 py-3 text-sm outline-none"
+            disabled={asking}
+          />
+          <button
+            type="submit"
+            disabled={asking || !question.trim()}
+            className="px-5 py-3 bg-[#FF6B35] text-white text-sm disabled:opacity-40"
+          >
+            Send
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+export default ChatPage;

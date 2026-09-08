@@ -1,11 +1,12 @@
 import { motion } from "framer-motion";
 import React from "react";
+import { Link } from "react-router-dom";
 
 function LandingPage() {
   return (
-    <div data-scroll data-scroll-section data-scroll-speed="-.38" className=" h-screen w-full bg-white pt-1 ">
+    <div data-scroll data-scroll-section data-scroll-speed="-.38" className=" h-screen w-full pt-1 ">
       <div className="textStructures mt-40 px-12">
-        {["We Create", "eye-opening", "presentations"].map((item, index) => {
+        {["We Create", "WE UNDERSTAND.", "WE ANSWER."].map((item, index) => {
           return (
             <div className="masker  uppercase">
               <div className="w-fit flex">
@@ -14,10 +15,10 @@ function LandingPage() {
                     initial={{ width: 0 }}
                     animate={{ width: "9vw" }}
                     transition={{ duration: 1, ease: [0.76, 0, 0.24, 1] }}
-                    className="w-[9vw] bg-red-600 relative  top-3 h-[5vw] rounded-lg"
+                    className="w-[9vw] bg-red-600 relative  top-1.5 h-[5vw] rounded-lg"
                   ></motion.div>
                 )}
-                <h1 className="text-[7vw] font-Founders_Grotesk tracking-tighter font-bold leading-22 text-zinc-900 ">
+                <h1 className="text-[6vw] font-Founders_Grotesk tracking-tighter font-bold leading-22 text-[#1F2937]">
                   {item}
                 </h1>
               </div>
@@ -26,21 +27,23 @@ function LandingPage() {
         })}
       </div>
 
-      <div className="border-t-[1px]   border-zinc-700 mt-43 flex justify-between items-center px-15 py-3">
+      <div className="border-t-[1px]   border-[#F9FAFB] mt-43 flex justify-between items-center px-15 py-3">
         {[
-          "Presentation and storytelling agency",
-          "For innovation teams and global brands",
+          "AI document reader & knowledge assistant",
+          "Turn PDFs and documents into instant answers",
         ].map((item, index) => {
           return (
-            <p className="text-[2.2vh] text-zinc-900 font-NeueMontreal tracking-tight leading-none ">
+            <p className="text-[2.2vh] text-[#FF6B35] font-NeueMontreal tracking-tight leading-none ">
               {item}
             </p>
           );
         })}
 
-        <div className="start uppercase py-2 px-4 border-[1px] text-zinc-900 border-zinc-900 text-md font-NeueMontreal leading-none  hover:cursor-pointer hover:bg-zinc-900 hover:text-white duration-300 rounded-full">
-          start the project
-        </div>
+        <Link to="/ask-docly" className="flex justify-end">
+          <div className="start uppercase py-2 px-4 border-[1px] text-[#FF6B35] border-[#FF6B35] text-md font-NeueMontreal leading-none  hover:cursor-pointer hover:bg-[#FF6B35] hover:text-white duration-300 rounded-full">
+            TRY DOCLY →
+          </div>
+        </Link>
       </div>
     </div>
   );
