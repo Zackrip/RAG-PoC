@@ -19,7 +19,7 @@ function Eyes() {
     
     
     <div className='eyes w-full h-screen overflow-hidden'>
-        <div data-scroll data-scroll-section data-scroll-speed="-.6" className='relative w-full h-full bg-center bg-cover bg-[url("https://ochi.design/wp-content/uploads/2022/05/Top-Viewbbcbv-1-1440x921.jpg")]'>
+        <div data-scroll data-scroll-section data-scroll-speed="-.6" className='relative w-full h-full bg-center bg-cover bg-[url("")]'>
             <div className='absolute flex gap-10 top-1/2 left-1/2 -translate-x-[50%] -translate-y-[50%]'>
                 <div className='flex items-center justify-center w-[14vw] h-[14vw] rounded-full bg-zinc-100'>
                     <div className='relative w-[8vw] h-[8vw] rounded-full bg-zinc-900'>
