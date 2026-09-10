@@ -1,13 +1,13 @@
-import gemini from "../configs/gemini.js";
+import ollama from "../configs/ollama.js";
 import qdrantClient from "../configs/qdrant.js";
 
 const COLLECTION_NAME = "documents";
 
 const createQueryEmbedding = async (text) => {
-  const vector = await gemini.embeddings.embedQuery(text);
+  const vector = await ollama.embeddings.embedQuery(text);
 
   if (!vector?.length) {
-    throw new Error("Gemini returned an empty query embedding");
+    throw new Error("Ollama returned an empty query embedding");
   }
 
   return vector;

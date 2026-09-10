@@ -1,5 +1,4 @@
-
-import gemini from "../configs/gemini.js";
+import ollama from "../configs/ollama.js";
 import qdrantClient from "../configs/qdrant.js";
 import dotenv from "dotenv";
 import crypto from "crypto";
@@ -7,26 +6,14 @@ import crypto from "crypto";
 dotenv.config();
 
 const COLLECTION_NAME = "documents";
-
 const VECTOR_SIZE = 768;
 
-const createEmbedding = async (text) => {
-  const [vector] = await gemini.embeddings.embedDocuments([text]);
-
-  if (!vector?.length) {
-    throw new Error("Gemini returned an empty embedding");
-  }
-
-  return vector;
-};
-
 const createVectorStore = async (documents) => {
-  
-
   // Check whether collection exists
   const collections = await qdrantClient.getCollections();
+
   const collectionExists = collections.collections.some(
-    (collection) => collection.name === COLLECTION_NAME,
+    (collection) => collection.name === COLLECTION_NAME
   );
 
   if (!collectionExists) {
@@ -38,33 +25,48 @@ const createVectorStore = async (documents) => {
     });
   }
 
-  const points = [];
+  // Get all chunk texts
+  const texts = documents.map(
+    (document) => document.pageContent
+  );
 
-  for (let i = 0; i < documents.length; i++) {
-    const document = documents[i];
+  console.log("Embedding chunks:", texts.length);
 
-    const vector = await createEmbedding(document.pageContent);
+  // Embed ALL chunks in one call
+  const vectors = await ollama.embeddings.embedDocuments(texts);
 
-    points.push({
-      id: crypto.randomUUID(),
+  console.log("Embeddings received:", vectors.length);
+console.log("Vector dimension:", vectors[0]?.length);
 
-      vector,
-
-      payload: {
-        pageContent: document.pageContent,
-
-        metadata: {
-          ...document.metadata,
-          chunkIndex: i,
-        },
-      },
-    });
+  if (!vectors?.length) {
+    throw new Error("Ollama returned empty embeddings");
   }
 
+  // Create Qdrant points
+  const points = documents.map((document, index) => ({
+    id: crypto.randomUUID(),
+
+    vector: vectors[index],
+
+    payload: {
+      pageContent: document.pageContent,
+
+      metadata: {
+        ...document.metadata,
+        chunkIndex: index,
+      },
+    },
+  }));
+
+
+
+  // Store all points
   await qdrantClient.upsert(COLLECTION_NAME, {
     wait: true,
     points,
   });
+
+  console.log("Points stored:", points.length);
 
   return {
     collectionName: COLLECTION_NAME,
