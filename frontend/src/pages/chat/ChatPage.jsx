@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
-const API = "http://localhost:3000/api";
+import api from "../../services/api.js";
 
 function ChatPage() {
   const [file, setFile] = useState(null);
@@ -26,7 +25,7 @@ function ChatPage() {
     const formData = new FormData();
     formData.append("document", file);
     try {
-      const res = await axios.post(`${API}/documents/upload`, formData);
+      const res = await api.post("/documents/upload", formData);
       setUploadMsg(`${res.data.data.fileName} uploaded (${res.data.data.chunkCount} chunks)`);
       setFile(null);
     } catch (err) {
@@ -43,7 +42,7 @@ function ChatPage() {
     setMessages((m) => [...m, { from: "you", text: q }]);
     setAsking(true);
     try {
-      const res = await axios.post(`${API}/chat`, { question: q });
+      const res = await api.post("/chat", { question: q });
       setMessages((m) => [...m, { from: "ai", text: res.data.answer }]);
     } catch (err) {
       setMessages((m) => [...m, { from: "ai", text: "Error: " + (err.response?.data?.message || "Something went wrong") }]);

@@ -15,7 +15,7 @@ function LandingPage() {
                     initial={{ width: 0 }}
                     animate={{ width: "9vw" }}
                     transition={{ duration: 1, ease: [0.76, 0, 0.24, 1] }}
-                    className="w-[9vw] bg-red-600 relative  top-1.5 h-[5vw] rounded-lg"
+                  className="w-[9vw] bg-[#FF6B35] relative  top-1.5 h-[5vw] rounded-lg"
                   ></motion.div>
                 )}
                 <h1 className="text-[6vw] font-Founders_Grotesk tracking-tighter font-bold leading-22 text-[#1F2937]">

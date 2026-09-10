@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import React from "react";
 import Navbar from "../layout/Navbar";
+import Footer from "./Footer";
 
 
 
@@ -11,6 +12,7 @@ const DashboardLayout = () => {
       <main>
         <Outlet />
       </main>
+      <Footer />
     </div>
   )
 }
